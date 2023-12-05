@@ -14,7 +14,7 @@ const user = {
 }
 
 /**
- * Get date of
+ * Get Subjet Date
  * @param {object} user 
  * @param {string} subject 
  */
