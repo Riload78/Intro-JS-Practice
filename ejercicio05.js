@@ -27,11 +27,8 @@ class Catalog {
   }
 
   getCatalog () {
-    return this.catalog
-  }
-
-  setCatalog (value) {
-    if (this.catalog.length) {
+    // return this.catalog
+    if (!this.catalog.length) {
       console.log('No hay canciones')
     } else {
       for (const i in this.catalog) {
@@ -42,28 +39,36 @@ class Catalog {
     }
   }
 
+  setCatalog (value) {
+    this.catalog = value
+  }
+
   agregarCancion (data) {
-    // find new ID
-    const newId = Object.keys(this.catalog).length
-    // create object with data and id
-    const newObj = { ...data, id: newId }
-    console.log(newObj)
-    // add to catalog
-    this.catalog.push(newObj)
+    if (this.validateEntry(data)) {
+      // find new ID
+      const newId = Object.keys(this.catalog).length
+      // create object with data and id
+      const newObj = { ...data, id: newId }
+      console.log(newObj)
+      // add to catalog
+      this.catalog.push(newObj)
+    } else {
+      throw new Error('El dato no contiene el formato correcto')
+    }
   }
 
   listarCanciones () {
     console.log('Entro en listar')
     if (!Object.values(this.catalog).length) {
       console.log('No hay canciones')
-      return 'No hay canciones'
     } else {
-      console.log('lista canciones:', this.getCatalog)
+      console.log('lista canciones:', this.catalog)
     }
   }
 
   buscarPorGenero (genero) {
-    console.log('Entro en buscar')
+    const filterSongs = this.catalog.filter(song => song.genre === genero)
+    console.log('listbyGender:', filterSongs)
   }
 
   calcularPromedioDuración (data) {
@@ -74,13 +79,18 @@ class Catalog {
 
   }
 
-  // agregarCancion
-  // listarCanciones
-  // buscarPorGenero
-  // calcularPromedioDuracion
+  validateEntry (data) {
+    if (typeof (data) !== 'object') throw new Error('El dato debe de ser un objeto')
+    const structure = ['name', 'genre', 'duration']
+    let isValid = true
+    for (const field of structure) {
+      if (!(field in data)) {
+        isValid = false
+      }
+    }
+    return isValid
+  }
 }
-
-module.exports = { Catalog }
 
 const myCatalog = new Catalog()
 
@@ -90,8 +100,12 @@ myCatalog.buscarPorGenero()
 myCatalog.calcularPromedioDuración()
 myCatalog.agregarCancion(songs[1])
 myCatalog.listarCanciones()
+myCatalog.getCatalog()
+myCatalog.buscarPorGenero('Pop')
 console.log('************************************')
 // Acceso a la clase a traves del prototype
 console.log(typeof (Catalog))
 console.log(Catalog.prototype.agregarCancion)
 console.log(Object.getOwnPropertyNames(Catalog.prototype))
+
+module.exports = Catalog
