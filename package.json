@@ -1,0 +1,28 @@
+{
+  "name": "intro-js-practice",
+  "version": "1.0.0",
+  "description": "Intro JS Practice",
+  "main": "ejercicio05.js",
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Riload78/Intro-JS-Practice.git"
+  },
+  "author": "Riload78",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Riload78/Intro-JS-Practice/issues"
+  },
+  "homepage": "https://github.com/Riload78/Intro-JS-Practice#readme",
+  "dependencies": {
+    "standard": "^17.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
