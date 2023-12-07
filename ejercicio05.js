@@ -66,7 +66,6 @@ class Catalog {
   }
 
   calcularPromedioDuración () {
-    console.log('Entro en promedio')
     let promedio = 0
     let duration = 0
     for (const item of this.catalog) {
@@ -105,7 +104,6 @@ myCatalog.agregarCancion(songs[0])
 myCatalog.listarCanciones()
 myCatalog.agregarCancion(songs[1])
 myCatalog.listarCanciones()
-myCatalog.getCatalog()
 myCatalog.buscarPorGenero('Pop')
 myCatalog.listarCanciones()
 myCatalog.eliminarCancion(0)
@@ -115,8 +113,8 @@ myCatalog.listarCanciones()
 myCatalog.calcularPromedioDuración()
 myCatalog.getCatalog()
 
-// Add song wjçhit wrong format
-myCatalog.agregarCancion(songs[3])
+// Add song with wrong format force throw error
+// myCatalog.agregarCancion(songs[3])
 
 console.log('************************************')
 // Acceso a la clase a traves del prototype
