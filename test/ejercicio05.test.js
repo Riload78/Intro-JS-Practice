@@ -1,16 +1,14 @@
+/* eslint-disable no-undef */
 const Catalog = require('../ejercicio05')
 
-describe ('TDD Catalog Class', () => {
-  beforeEach(() => {
-    const myCatalog = new Catalog()
-  })
+describe('TDD Catalog Class', () => {
   test('should be defined', () => {
     expect(new Catalog()).toBeDefined()
   })
   test('add song test entry param must be a object, Trown error if not', () => {
     // const song = { name: 'Test 1', genre: 'Pop', duration: 2.34 }
     const song = 'aaaa'
-    let catalog = new Catalog()
+    const catalog = new Catalog()
     expect(() => catalog.agregarCancion(song)).toThrow()
   })
   test('La función agregarCancion recibe un objeto de canción válido', () => {
@@ -19,7 +17,7 @@ describe ('TDD Catalog Class', () => {
       genre: 'Pop',
       duration: 2.34
     }
-    let catalog = new Catalog()
+    const catalog = new Catalog()
 
     expect(() => catalog.agregarCancion(cancion)).not.toThrow() // Verifica que no lance una excepción
     expect(catalog.validateEntry(cancion)).toBe(true) // Verifica que la función devuelve el objeto esperado
@@ -31,7 +29,7 @@ describe ('TDD Catalog Class', () => {
       genre: 'Pop'
       // duration falta en este objeto
     }
-    let catalog = new Catalog()
+    const catalog = new Catalog()
 
     expect(() => catalog.agregarCancion(cancionInvalida)).toThrow() // Verifica que lance una excepción
   })
