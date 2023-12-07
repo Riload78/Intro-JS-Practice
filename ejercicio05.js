@@ -18,7 +18,8 @@ Implementa un programa que permita realizar las siguientes operaciones:
 const songs = {
   0: { name: 'Canción 1', genre: 'Pop', duration: 2.34 },
   1: { name: 'Canción 2', genre: 'Rock', duration: 1.89 },
-  2: { name: 'Canción 3', genre: 'Soul', duration: 3.67 }
+  2: { name: 'Canción 3', genre: 'Soul', duration: 3.67 },
+  3: { name: 'Canción 3', genre: 'Soul' }
 }
 
 class Catalog {
@@ -27,14 +28,12 @@ class Catalog {
   }
 
   getCatalog () {
-    // return this.catalog
     if (!this.catalog.length) {
       console.log('No hay canciones')
     } else {
       for (const i in this.catalog) {
         const song = this.catalog[i]
-        console.log(`Nombre: ${song.name}, Genero: ${song.genre}, Duracion: ${song.duration
-          }`)
+        console.log(`Nombre: ${song.name}, Genero: ${song.genre}, Duracion: ${song.duration}`)
       };
     }
   }
@@ -45,12 +44,8 @@ class Catalog {
 
   agregarCancion (data) {
     if (this.validateEntry(data)) {
-      // find new ID
       const newId = Object.keys(this.catalog).length
-      // create object with data and id
       const newObj = { ...data, id: newId }
-      console.log(newObj)
-      // add to catalog
       this.catalog.push(newObj)
     } else {
       throw new Error('El dato no contiene el formato correcto')
@@ -58,7 +53,6 @@ class Catalog {
   }
 
   listarCanciones () {
-    console.log('Entro en listar')
     if (!Object.values(this.catalog).length) {
       console.log('No hay canciones')
     } else {
@@ -71,12 +65,25 @@ class Catalog {
     console.log('listbyGender:', filterSongs)
   }
 
-  calcularPromedioDuración (data) {
+  calcularPromedioDuración () {
     console.log('Entro en promedio')
+    let promedio = 0
+    let duration = 0
+    for (const item of this.catalog) {
+      duration += item.duration
+    }
+    promedio = duration / this.catalog.length
+    console.log('Promedio:', promedio)
   }
 
   eliminarCancion (id) {
-
+    const deleteSong = this.catalog.filter(song => song.id === id)
+    if (deleteSong.length) {
+      const updateSongs = this.catalog.filter(song => song.id !== id)
+      this.setCatalog(updateSongs)
+    } else {
+      console.log('No existe la canción que quieres eliminar')
+    }
   }
 
   validateEntry (data) {
@@ -96,12 +103,21 @@ const myCatalog = new Catalog()
 
 myCatalog.agregarCancion(songs[0])
 myCatalog.listarCanciones()
-myCatalog.buscarPorGenero()
-myCatalog.calcularPromedioDuración()
 myCatalog.agregarCancion(songs[1])
 myCatalog.listarCanciones()
 myCatalog.getCatalog()
 myCatalog.buscarPorGenero('Pop')
+myCatalog.listarCanciones()
+myCatalog.eliminarCancion(0)
+myCatalog.listarCanciones()
+myCatalog.agregarCancion(songs[2])
+myCatalog.listarCanciones()
+myCatalog.calcularPromedioDuración()
+myCatalog.getCatalog()
+
+// Add song wjçhit wrong format
+myCatalog.agregarCancion(songs[3])
+
 console.log('************************************')
 // Acceso a la clase a traves del prototype
 console.log(typeof (Catalog))
