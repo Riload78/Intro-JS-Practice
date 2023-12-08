@@ -61,8 +61,7 @@ class Game {
     for (const [index, value] of matchs.entries()) {
       const match = {
         matchId: index + 1,
-        player1: value[0],
-        player2: value[1],
+        players: [value[0], value[1]],
         play: 0,
         round: 0,
         winner: false
