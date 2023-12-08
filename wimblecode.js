@@ -37,7 +37,7 @@ class Game {
           firstMatch.push({
             id: index + 1,
             name: players[position],
-            score: 0
+            score: [0]
           })
           players.splice(position, 1)
         }
@@ -48,7 +48,7 @@ class Game {
       secondMatch.push({
         id: index + 1,
         name: value,
-        score: [1, 2]
+        score: [0]
       })
     }
 
