@@ -1,6 +1,3 @@
-const { match } = require("assert")
-const { runInThisContext } = require("vm")
-
 class Game {
   constructor () {
     this.score = 0
@@ -32,16 +29,30 @@ class Game {
     const players = this.players
     const matchs = []
     const firstMatch = []
+    const secondMatch = []
     for (let index = 0; index < (players.length); index++) {
       const position = Math.floor(Math.random() * this.players.length)
       if (firstMatch.length < 2) {
         if (!firstMatch.includes(players[position])) {
-          firstMatch.push(players[position])
+          firstMatch.push({
+            id: index + 1,
+            name: players[position],
+            score: 0
+          })
           players.splice(position, 1)
         }
       }
     }
-    this.setMatchs(matchs.concat([firstMatch], [players]))
+
+    for (const [index, value] of players.entries()) {
+      secondMatch.push({
+        id: index + 1,
+        name: value,
+        score: [1, 2]
+      })
+    }
+
+    this.setMatchs(matchs.concat([firstMatch], [secondMatch]))
   }
 
   createMatch () {
@@ -49,12 +60,12 @@ class Game {
     const listMatch = []
     for (const [index, value] of matchs.entries()) {
       const match = {
-        id: index,
+        matchId: index + 1,
         player1: value[0],
         player2: value[1],
-        scorePlayer1: 0,
-        scorePlayer2: 0,
-        winner: ''
+        play: 0,
+        round: 0,
+        winner: false
       }
       listMatch.push(match)
     }
@@ -62,8 +73,14 @@ class Game {
     this.setListMatch(listMatch)
   }
 
-  pointWonBy (player) {
-    return true
+  pointWonBy (move) {
+    const match = move[0]
+    const player = move[1]
+    console.log('match:', match)
+    console.log('player:', player)
+    // Buscar el objeto con el ID específico
+    const targetObject = this.listMatch.find(item => item.matchId === match)
+    console.log('targetObject', targetObject)
   }
 
   getCurrentRoundScore () {
@@ -93,9 +110,14 @@ class Match extends Game {
 }
 
 const game = new Game()
+// crea el torneo con los jugadores de forma ramdom
 game.createMatchs()
-game.getMatchs()
+// Crea los partidos
 game.createMatch()
+// Lista los partidos
 game.getListMatch()
+// Puntos ganados por jugador
+game.pointWonBy([1, 1])
+game.pointWonBy([2, 2])
 
 module.exports = { Game }
