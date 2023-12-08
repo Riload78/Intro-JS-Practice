@@ -96,7 +96,7 @@ class Game {
   }
 }
 
-class Match extends Game {
+/* class Match extends Game {
   constructor (match) {
     super()
     this.player1 = player1 || null
@@ -107,7 +107,7 @@ class Match extends Game {
     this.round = 1
     this.winner = false
   }
-}
+} */
 
 const game = new Game()
 // crea el torneo con los jugadores de forma ramdom
