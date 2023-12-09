@@ -3,6 +3,9 @@ class Game {
     this.players = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
     this.matchs = []
     this.listMatch = []
+    this.score = []
+    this.round = 0
+    this.juegos = 0
   }
 
   setMatchs (value) {
@@ -22,6 +25,15 @@ class Game {
     return this.listMatch
   }
 
+  setScore (value) {
+    this.score = value
+  }
+
+  getScore () {
+    console.log('Get Store:', this.score)
+    return this.score
+  }
+
   // crearte Matchs from players
   createMatchs () {
     const players = this.players
@@ -34,7 +46,9 @@ class Game {
           firstMatch.push({
             id: index + 1,
             name: players[position],
-            score: [0]
+            score: [0],
+            round: this.round,
+            juegos: this.juegos
           })
           players.splice(position, 1)
         }
@@ -59,8 +73,6 @@ class Game {
       const match = {
         matchId: index + 1,
         players: [value[0], value[1]],
-        play: 0,
-        round: 0,
         winner: false
       }
       listMatch.push(match)
@@ -79,13 +91,98 @@ class Game {
     const playerMove = targetObject.players.find(item => item.id === player)
     // actualizo los puntos
     playerMove.score.push(0)
+    this.checkStatus(match)
+  }
+
+  checkStatus (targetObject) {
+    console.log('Check status:', this.listMatch[targetObject - 1].players)
+    const players = this.listMatch[targetObject - 1].players
+    let scoreArr = []
+    for (const player of players) {
+      scoreArr.push({
+        matchId: targetObject,
+        id: player.id,
+        score: player.score
+      })
+    }
+    console.log(scoreArr)
+    let scoreP1 = scoreArr[0].score.length
+    let scoreP2 = scoreArr[1].score.length
+    if (scoreP1 > 4 && scoreP2 < 4) {
+      console.log('this.setWinner(scoreArr[0].id)')
+    } else if (scoreP1 < 4 && scoreP2 > 4) {
+      console.log('this.setRoundWinner(scoreArr[1].id)')
+      const obj = this.listMatch.find(item => item.matchId === scoreArr[1].matchId)
+      obj.players[0].round = this.round + 1
+      this.resetScore(obj)
+      console.log('obj:', obj)
+    } else if (scoreP1 === 4 && scoreP2 < 4) {
+      console.error('suma scrore p1')
+    } else if (scoreP2 === 4 && scoreP1 < 4) {
+      console.log('suma score 2')
+    } else if (scoreP1 === 4 && scoreP2 === 4) {
+      console.log('no suma -> DEUCE')
+    } else {
+      console.log('no pasa nada- actualizo contador')
+    }
   }
 
   getCurrentRoundScore () {
-    console.log(this.getMatchs())
+    const roundBoard = []
+    let playerName = ''
+    let playerScore = 0
     for (const item of this.listMatch) {
-      console.log(item)
+      for (const player of item.players) {
+        playerName = player.name
+        playerScore = this.convertScore(player.score)
+        roundBoard.push({
+          matchId: item.matchId,
+          name: playerName,
+          score: playerScore,
+          round: item.round
+        })
+      }
     }
+
+    this.setScore(roundBoard)
+    roundBoard.forEach((match) => {
+      console.log(`Partido ${match.matchId}: Round - ${match.round} ${match.name} - ${match.score}`)
+    })
+  }
+
+  resetScore (obj) {
+    console.log('ResetScore:', obj)
+    for (const item of obj.players) {
+      item.score = [0]
+    }
+  }
+
+  /**
+   * Convert array score in Number
+   * @param {object} score
+   * @returns number
+   */
+
+  convertScore (score) {
+    let scoreConverted = ''
+    switch (score.length) {
+      case 1:
+        scoreConverted = 0
+        break
+      case 2:
+        scoreConverted = 15
+        break
+      case 3:
+        scoreConverted = 30
+        break
+      case 4:
+        scoreConverted = 40
+        break
+      default:
+        scoreConverted = -1
+        break
+    }
+    return scoreConverted
   }
 
   getMatchScore () {
@@ -119,10 +216,15 @@ game.createMatch()
 game.getListMatch()
 // Puntos ganados por jugador
 game.pointWonBy([1, 1])
-game.pointWonBy([2, 2])
-game.getListMatch()
+game.pointWonBy([1, 2])
+game.pointWonBy([1, 2])
+game.pointWonBy([1, 2])
+game.pointWonBy([1, 2])
+/* game.pointWonBy([2, 2])
 game.pointWonBy([1, 1])
-game.getListMatch()
+game.pointWonBy([1, 2]) */
 game.getCurrentRoundScore()
+game.getListMatch()
+//game.getCurrentRoundScore()
 
 module.exports = { Game }
