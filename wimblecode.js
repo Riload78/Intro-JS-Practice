@@ -1,6 +1,5 @@
 class Game {
   constructor () {
-    this.score = 0
     this.players = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
     this.matchs = []
     this.listMatch = []
@@ -11,7 +10,6 @@ class Game {
   }
 
   getMatchs () {
-    console.log(this.matchs)
     return this.matchs
   }
 
@@ -20,14 +18,13 @@ class Game {
   }
 
   getListMatch () {
-    console.log(this.listMatch)
+    console.log(JSON.stringify(this.listMatch, null, 1))
     return this.listMatch
   }
 
   // crearte Matchs from players
   createMatchs () {
     const players = this.players
-    const matchs = []
     const firstMatch = []
     const secondMatch = []
     for (let index = 0; index < (players.length); index++) {
@@ -52,7 +49,7 @@ class Game {
       })
     }
 
-    this.setMatchs(matchs.concat([firstMatch], [secondMatch]))
+    this.setMatchs(this.matchs.concat([firstMatch], [secondMatch]))
   }
 
   createMatch () {
@@ -75,15 +72,20 @@ class Game {
   pointWonBy (move) {
     const match = move[0]
     const player = move[1]
-    console.log('match:', match)
-    console.log('player:', player)
+
     // Buscar el objeto con el ID específico
     const targetObject = this.listMatch.find(item => item.matchId === match)
-    console.log('targetObject', targetObject)
+    // Buscar el player
+    const playerMove = targetObject.players.find(item => item.id === player)
+    // actualizo los puntos
+    playerMove.score.push(0)
   }
 
   getCurrentRoundScore () {
-    return true
+    console.log(this.getMatchs())
+    for (const item of this.listMatch) {
+      console.log(item)
+    }
   }
 
   getMatchScore () {
@@ -118,5 +120,9 @@ game.getListMatch()
 // Puntos ganados por jugador
 game.pointWonBy([1, 1])
 game.pointWonBy([2, 2])
+game.getListMatch()
+game.pointWonBy([1, 1])
+game.getListMatch()
+game.getCurrentRoundScore()
 
 module.exports = { Game }
