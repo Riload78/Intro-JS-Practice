@@ -5,10 +5,8 @@ const game = () => {
   const firstMatch = []
   const secondMatch = []
   let marcador = ''
-
-  let isDeuce = false
-  let matchs = []
   let round = 0
+  let matchs = []
 
   const getPlayers = () => players
 
@@ -38,6 +36,7 @@ const game = () => {
             name: players[position],
             score: [0],
             isDeuce: false,
+            countDeuce: [],
             round: 0,
             juegos: 0
           })
@@ -52,6 +51,7 @@ const game = () => {
         name: value,
         score: [0],
         isDeuce: false,
+        countDeuce: [],
         round: 0,
         juegos: 0
       })
@@ -80,7 +80,13 @@ const game = () => {
     // Buscar el player
     const playerMove = targetObject.players.find(item => item.id === player)
     // actualizo los puntos
-    playerMove.score.push(0)
+    // check if isDeuce
+    console.log('playerMove.isDeuce', playerMove.isDeuce)
+    if (playerMove.isDeuce === true) {
+      playerMove.countDeuce.push(0)
+    } else {
+      playerMove.score.push(0)
+    }
     const status = checkStatus(match)
     if (status === 'deuce') {
       targetObject.players.forEach(player => {
@@ -104,7 +110,8 @@ const game = () => {
         matchId: match,
         id: player.id,
         score: player.score,
-        isDeude: player.isDeuce
+        isDeude: player.isDeuce,
+        countDeuce: player.countDeuce
       })
     }
     console.log('scoreArr:', scoreArr)
@@ -122,11 +129,12 @@ const game = () => {
       // falta checkear si es partido
     } else if (scoreP1 >= 4 && scoreP2 >= 4) {
       // console.log('no suma -> DEUCE')
-      if (scoreArr[0].isDeude === true) {
+      /* if (scoreArr[0].isDeude === true) {
         deuceCount(scoreArr)
       } else {
         deuceState(scoreArr)
-      }
+      } */
+      deuceState(scoreArr)
       result = 'deuce'
       return result
     }
@@ -138,6 +146,7 @@ const game = () => {
       name: player.name,
       score: convertScore(player.score),
       isDeuce: player.isDeuce,
+      countDeuce: player.deuceCount,
       round: player.round,
       juegos: player.juegos
     }))
@@ -175,12 +184,28 @@ const game = () => {
   }
 
   const deuceState = (players) => {
+    console.log('Entro Deuce State')
     const demo = players.map(item => ({ ...item, isDeude: true }))
-    // console.log('deuceState', demo)
-  }
-
-  const deuceCount = (players) => {
-    console.log('Entro en deuceCount:', players);
+    console.log('deuceState', demo)
+    const deuceP1 = players[0].countDeuce
+    const deuceP2 = players[1].countDeuce
+    console.log(deuceP1, deuceP2)
+    if (Math.abs(deuceP1.length - deuceP2.length) === 2) {
+      // alguien gana
+      console.log('Alguien gana')
+    } else {
+      if (deuceP1.length > deuceP2.length && (deuceP1.length - deuceP2.length) < 2) {
+        // ventaja P1
+        console.log('Ventaja P1')
+        return 1
+      } else if (deuceP1.length < deuceP2.length && (deuceP1.length - deuceP2.length) < 2) {
+        // ventaja P2
+        console.log('Ventaja p2')
+      } else {
+        // iguales
+        console.log('Iguales')
+      }
+    }
   }
 
   const roundState = (players) => {
@@ -192,6 +217,7 @@ const game = () => {
       return true
     } else {
       // gana un Juego
+      console.log('Gana un juego')
     }
   }
 
@@ -199,6 +225,7 @@ const game = () => {
     // console.log('ResetScore:', obj)
     for (const item of obj.players) {
       item.score = [0]
+      item.countDeuce = []
     }
   }
 
@@ -220,6 +247,13 @@ console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 2]))
 // Duece
 console.log(myGame.pointWonBy([2, 1]))
-/* console.log(myGame.pointWonBy([2, 2])) */
+console.log(myGame.pointWonBy([2, 1]))
+// ventaja 2,2
+console.log(myGame.pointWonBy([2, 1]))
+// gana 2,2
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.getMatchs())
 console.log(myGame.getCurrentRoundScore())
