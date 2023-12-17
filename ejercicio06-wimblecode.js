@@ -1,4 +1,3 @@
-const { log } = require("console")
 
 const game = () => {
   const players = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
@@ -215,7 +214,8 @@ const game = () => {
       // ventaja P2
       console.log('Ventaja p2')
       if (checkWinRound(deuceP1, deuceP2)) {
-        roundState(players)
+        // roundState(players)
+        deuceRoundState(players)
         result = 'winner'
       } else {
         console.log('Advance')
@@ -236,6 +236,8 @@ const game = () => {
     }
     return isWin
   }
+
+  const 
 
   // marca los round
   const roundState = (players) => {
@@ -302,14 +304,9 @@ console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 2]))
 console.log(myGame.pointWonBy([2, 2]))
 console.log(myGame.pointWonBy([1, 1]))
-
-
-
-// Duece
-
-
-
-// ventaja 2,2
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
 
 
 console.log(myGame.getMatchs())
