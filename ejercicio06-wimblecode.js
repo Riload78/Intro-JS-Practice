@@ -87,6 +87,7 @@ const game = () => {
     } else {
       playerMove.score.push(0)
     }
+
     const status = checkStatus(match)
     if (status === 'deuce') {
       targetObject.players.forEach(player => {
@@ -94,9 +95,10 @@ const game = () => {
       })
       return `Encuentro ${match}: DEUCE -> ${targetObject.players[0].name} - ${targetObject.players[1].name}`
     }
-    if (status === 'round') {
+    if (status === 'round' || status === 'winner') {
       return `Encuentro ${match}: Ganador de Round: ${playerMove.name}`
     }
+
     return `Encuentro ${match}: Punto para ${playerMove.name}`
   }
 
@@ -134,8 +136,9 @@ const game = () => {
       } else {
         deuceState(scoreArr)
       } */
-      deuceState(scoreArr)
-      result = 'deuce'
+
+      console.log('scoreArr Despues:', scoreArr)
+      result = deuceState(scoreArr)
       return result
     }
   }
@@ -146,7 +149,7 @@ const game = () => {
       name: player.name,
       score: convertScore(player.score),
       isDeuce: player.isDeuce,
-      countDeuce: player.deuceCount,
+      countDeuce: player.countDeuce,
       round: player.round,
       juegos: player.juegos
     }))
@@ -155,8 +158,12 @@ const game = () => {
     // setScore(roundBoard)
     let result = []
     roundBoard.forEach((match) => {
+      console.log('match', match)
       const isDeuce = match.isDeuce ? 'Deuce ' : ''
-      result += `Encuentro ${match.matchId}: ${match.name} - ${match.score} ${isDeuce}|| Round - ${match.round} Juegos - ${match.juegos}\n`
+      console.log('match.countDeuce', match.countDeuce)
+      const showCountDeuce = match.countDeuce.length ? 'Ventaja' : ''
+      console.log('showCountDeuce', match.countDeuce)
+      result += `Encuentro ${match.matchId}: ${match.name} - ${match.score} ${isDeuce} ${showCountDeuce}|| Round - ${match.round} Juegos - ${match.juegos}\n`
     })
     return result
   }
@@ -177,7 +184,7 @@ const game = () => {
         scoreConverted = 40
         break
       default:
-        scoreConverted = 'Deuce'
+        scoreConverted = 40
         break
     }
     return scoreConverted
@@ -185,40 +192,90 @@ const game = () => {
 
   const deuceState = (players) => {
     console.log('Entro Deuce State')
-    const demo = players.map(item => ({ ...item, isDeude: true }))
-    console.log('deuceState', demo)
-    const deuceP1 = players[0].countDeuce
-    const deuceP2 = players[1].countDeuce
+    const deucePlayers = players.map(item => ({ ...item, isDeude: true }))
+    console.log('deuceState', deucePlayers)
+    const deuceP1 = deucePlayers[0].countDeuce
+    const deuceP2 = deucePlayers[1].countDeuce
     console.log(deuceP1, deuceP2)
-    if (Math.abs(deuceP1.length - deuceP2.length) === 2) {
+    /* if (Math.abs(deuceP1.length - deuceP2.length) === 2) {
       // alguien gana
       console.log('Alguien gana')
-    } else {
-      if (deuceP1.length > deuceP2.length && (deuceP1.length - deuceP2.length) < 2) {
-        // ventaja P1
-        console.log('Ventaja P1')
-        return 1
-      } else if (deuceP1.length < deuceP2.length && (deuceP1.length - deuceP2.length) < 2) {
-        // ventaja P2
-        console.log('Ventaja p2')
+    } */
+    let result = 0
+    if (deuceP1.length > deuceP2.length) {
+      // ventaja P1
+      console.log('Ventaja P1')
+      if (checkWinRound(deuceP1, deuceP2)) {
+        result = 'winner'
       } else {
-        // iguales
-        console.log('Iguales')
+        console.log('Advance')
+        result = 'advance'
       }
+    } else if (deuceP1.length < deuceP2.length && (deuceP1.length - deuceP2.length) < 2) {
+      // ventaja P2
+      console.log('Ventaja p2')
+      if (checkWinRound(deuceP1, deuceP2)) {
+        roundState(players)
+        result = 'winner'
+      } else {
+        console.log('Advance')
+        result = 'advance'
+      }
+    } else {
+      // iguales
+      console.log('Iguales')
+      result = 'deuce'
     }
+    console.log('Resultado:', result)
+    return result
+  }
+  const checkWinRound = (p1, p2) => {
+    let isWin = false
+    if (Math.abs(p1.length - p2.length) === 2) {
+      isWin = true
+    }
+    return isWin
   }
 
+  // marca los round
   const roundState = (players) => {
-    // console.log('roundState', players[0])
+    // console.log('roundState', players)
     const obj = matchs.find(item => item.matchId === players[0].matchId)
-    resetScore(obj)
-    if (obj.players[0].round < 4) {
-      obj.players[0].round = round + 1
-      return true
+
+    const jugadorConMayorScore = getPlayerWithHightScore(players)
+    // console.log('jugadorConMayorScore', jugadorConMayorScore.id)
+    if (obj.players[jugadorConMayorScore.id - 1].round < 4) {
+      for (const match of matchs) {
+        for (const player of match.players) {
+          if (player.id === jugadorConMayorScore.id && match.matchId === jugadorConMayorScore.matchId) {
+            player.round += 1
+          }
+        }
+      }
     } else {
       // gana un Juego
+      // falta por comprobar
       console.log('Gana un juego')
+      obj.players[0].isDeuce = false
     }
+    resetScore(obj)
+    return true
+  }
+
+  const getPlayerWithHightScore = (roundState) => {
+    let jugadorConMayorScore = null
+    let maximoScore = -Infinity
+
+    for (const jugador of roundState) {
+      const puntajeTotal = jugador.score.length // Contar elementos en el array de score
+
+      if (puntajeTotal > maximoScore) {
+        maximoScore = puntajeTotal
+        jugadorConMayorScore = jugador
+      }
+    }
+
+    return jugadorConMayorScore
   }
 
   const resetScore = (obj) => {
@@ -234,26 +291,26 @@ const game = () => {
 }
 const myGame = game()
 console.log(myGame.createMatchs())
-console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
 console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
+
+
+
 // Duece
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
+
+
+
 // ventaja 2,2
-console.log(myGame.pointWonBy([2, 1]))
-// gana 2,2
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
+
+
 console.log(myGame.getMatchs())
 console.log(myGame.getCurrentRoundScore())
