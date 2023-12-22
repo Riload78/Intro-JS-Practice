@@ -102,6 +102,10 @@ const game = () => {
       return `Encuentro ${match}: Ganador de Juego: ${playerMove.name}`
     }
 
+    if (status === 'win match') {
+      return `Encuentro ${match}: Ganador de Partido: ${playerMove.name}`
+    }
+
     return `Encuentro ${match}: Punto para ${playerMove.name}`
   }
 
@@ -240,13 +244,6 @@ const game = () => {
     return isWin
   }
 
-  const checkWinMatch = () => {
-    console.log('Check Win Match')
-    let result = ''
-    let isWin = false
-    return result
-  }
-
   const deuceRoundState = (players) => {
     const obj = matchs.find(item => item.matchId === players[0].matchId)
     const jugadorConMayorScore = getPlayerWithHightScoreDeuce(players)
@@ -292,7 +289,6 @@ const game = () => {
       result = 'round'
     } else {
       // gana un Juego
-      // falta por comprobar
       console.log('Gana un juego')
       for (const match of matchs) {
         for (const player of match.players) {
@@ -302,8 +298,30 @@ const game = () => {
           }
         }
       }
-      result = 'juego'
+      console.log('jugagor', jugadorConMayorScore.name)
+      console.log('matchs', matchs)
+      if (checkWinMatch(obj)) {
+        const findPlayer = obj.players.find(player => player.juegos === 2)
+        const nameWinPlayer = findPlayer.name
+        console.log('nameWinPlayer', nameWinPlayer)
+        obj.winner = nameWinPlayer
+        result = 'win_match'
+      } else {
+        result = 'juego'
+      }
       resetRound(obj)
+    }
+    return result
+  }
+
+  const checkWinMatch = (obj) => {
+    // console.log('Check Win Match')
+    // console.log('checkWinMatch:', obj)
+    const findPlayer = obj.players.find(player => player.juegos === 2)
+    // console.log('findPlayer', findPlayer)
+    let result = false
+    if (findPlayer) {
+      result = true
     }
     return result
   }
@@ -324,7 +342,7 @@ const game = () => {
     return jugadorConMayorScore
   }
 
-  const getPlayerWithHightRounds = (roundState) => {
+  /*   const getPlayerWithHightRounds = (roundState) => {
     let jugadorConMayorScore = null
     let maximoScore = -Infinity
 
@@ -354,10 +372,10 @@ const game = () => {
     }
 
     return jugadorConMayorScore
-  }
+  } */
 
   const resetRound = (obj) => {
-    console.log('ResetRound:', obj)
+    // /*  */console.log('ResetRound:', obj)
     for (const item of obj.players) {
       item.score = [0]
       item.countDeuce = []
@@ -366,7 +384,7 @@ const game = () => {
   }
 
   const resetScore = (obj) => {
-    console.log('ResetScore:', obj)
+    // console.log('ResetScore:', obj)
     for (const item of obj.players) {
       item.score = [0]
       item.countDeuce = []
@@ -425,8 +443,9 @@ console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
 
-
+console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
 console.log(myGame.pointWonBy([1, 2]))
