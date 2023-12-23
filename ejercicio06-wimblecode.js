@@ -1,6 +1,6 @@
 
 const game = () => {
-  const players = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
+  const initialPlayers = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
   const firstMatch = []
   const secondMatch = []
   let marcador = ''
@@ -22,7 +22,7 @@ const game = () => {
   }
 
   // crearte Matchs from players
-  const createMatchs = () => {
+  const createMatchs = (players = initialPlayers) => {
     const listMatch = []
 
     for (let index = 0; index < (players.length); index++) {
@@ -112,6 +112,10 @@ const game = () => {
       return `Encuentro ${match}: Ganador de Partido: ${playerMove.name}`
     }
 
+    if (status === 'final') {
+      return 'Comienza la Final!!!!'
+    }
+
     return `Encuentro ${match}: Punto para ${playerMove.name}`
   }
 
@@ -175,7 +179,7 @@ const game = () => {
       juegos: player.juegos
     }))
     )
-    console.log('roundBoard', roundBoard)
+    // console.log('roundBoard', roundBoard)
     /* // console.log('roundBoard', roundBoard)
     // setScore(roundBoard)
 
@@ -189,11 +193,11 @@ const game = () => {
     })
     return result */
     let result = []
-    console.log('matchs', matchs)
+    // console.log('matchs', matchs)
     const matchBoard = matchs.filter(match => match.winner !== null)
     const winner = matchBoard.map(item => item.matchId)
-    console.log('matchBoard', matchBoard)
-    console.log('winner', winner)
+    // console.log('matchBoard', matchBoard)
+    // console.log('winner', winner)
 
     roundBoard.forEach(player => {
       let scoreInfo = ''
@@ -357,14 +361,40 @@ const game = () => {
     } else {
       // gana un Juego
       console.log('Gana un juego')
-      
       // console.log('jugagor', jugadorConMayorScore.name)
       // console.log('matchs', matchs)
       if (checkWinMatch(obj)) {
+        console.log('obj', obj);
         const findPlayer = obj.players.find(player => player.juegos === 2)
         const nameWinPlayer = findPlayer.name
         console.log('nameWinPlayer', nameWinPlayer)
         obj.winner = nameWinPlayer
+        if (checkIsFinal() === true) {
+          const isFinal = matchs.filter(match => match.winner !== null)
+          console.log('isFnal', isFinal)
+          const finalPlayers = []
+          for (let index = 0; index < (isFinal.length); index++) {
+            console.log(isFinal[index].winner)
+            finalPlayers.push({
+              id: index + 1,
+              name: isFinal[index].winner,
+              score: [0],
+              isDeuce: false,
+              countDeuce: [],
+              isAdvance: false,
+              round: 0,
+              juegos: 0
+            })
+          }
+          matchs.push({
+            matchId: 3,
+            players: finalPlayers,
+            winner: null
+
+          })
+          //createMatchs()
+          result = 'final'
+        }
         result = 'win match'
       } else {
         for (const match of matchs) {
@@ -389,6 +419,17 @@ const game = () => {
     // console.log('findPlayer', findPlayer)
     let result = false
     if (findPlayer) {
+      result = true
+    }
+    return result
+  }
+
+  const checkIsFinal = () => {
+    console.log('Check Is Final')
+    let result = false
+    const isFinal = matchs.filter(match => match.winner !== null)
+    console.log('isFnal', isFinal)
+    if (isFinal.length === 2) {
       result = true
     }
     return result
@@ -467,8 +508,8 @@ const game = () => {
     }
   }
 
-  // Retrun Functions
-  return { players, getPlayers, createMatchs, getMatchs, pointWonBy, getCurrentRoundScore }
+  // Retrun Functions Revisar
+  return { getPlayers, createMatchs, getMatchs, pointWonBy, getCurrentRoundScore }
 }
 const myGame = game()
 console.log(myGame.createMatchs())
@@ -734,5 +775,5 @@ console.log(myGame.pointWonBy([2, 2]))
 
 
 
-console.log(myGame.getMatchs())
+//console.log(myGame.getMatchs())
 console.log(myGame.getCurrentRoundScore())
