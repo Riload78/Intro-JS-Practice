@@ -198,7 +198,6 @@ const game = () => {
     roundBoard.forEach(player => {
       let scoreInfo = ''
       if (winner.includes(player.matchId)) {
-      // const winner = matchBoard.map(item => item.winner)
         scoreInfo = `Ganador ${matchBoard[player.matchId - 1].winner}`
       } else {
         const isDeuce = player.isDeuce ? 'Deuce ' : ''
@@ -314,7 +313,6 @@ const game = () => {
         }
       }
     }
-    //resetScore(obj)
     return result
   }
 
