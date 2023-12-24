@@ -1,45 +1,175 @@
 # INTRO JS Practice
 
-Welcome to the INTRO JS Practice project! This project contains files related to INTRO JS, an easy-to-use library for step-by-step walkthroughs and introductory tours.
+¡Bienvenido al proyecto INTRO JS Practice! Este proyecto contiene ejercicios básicos de Javascript
 
-## Table of Contents
+## ïndice de contenidos
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Introducción](#introdución)
+- [Ejercicios](#ejercicios)
+- [Instalación](#instalación)
+- [Uso Wimblecode](#wimblecode)
+- [Uso](#uso)
+- [Contribuciones](#contribuciones)
+- [Licencia](#licencia)
 
-## Introduction
+## Introdución
 
-INTRO JS is a great tool for helping users get acquainted with a new web application. This project serves as a space to practice and explore INTRO JS's features.
+INTRO JS es una gran herramienta para ayudar a los usuarios a familiarizarse con una aplicación web. Este proyecto sirve para practicar las características de JAVASCRIPT.
 
-## Features
+## Ejercicios
 
-This project showcases the following features of INTRO JS:
+En esta práctica se plantea los siguientes ejecicios:
 
-- Basic tour functionality
-- Step skipping and advancing
-- Tooltip customization
-- Callback function usage
+- Creación de un objeto y recorrerlo
+- Arreglo de un bug
+- Tranformaciones
+- Bug de asincronía
+- Catálogo musical
+- Wimblecode
 
-## Getting Started
+## Instalación
 
-To get started with the INTRO JS Practice project, follow these steps:
+Para instalar el proyecto en tu maquina local:
 
-1. Clone the repository: `git clone https://github.com/username/intro-js-practice.git`
-2. Change to the project directory: `cd intro-js-practice`
-3. Open the `index.html` file in your preferred web browser.
+1. Clonar el repositorio: `git clone git@github.com:Riload78/Intro-JS-Practice.git`
+2. Cambiar de directorio: `cd intro-js-practice`
+3. Ejecurar en la consola `npm install`
+    - Dependencias
+        - babel
+        - jest (test)
+        - standard (eslintConfig)
+## Ejercicio 05 Biblioteca Musical
+Realizado con clases y testeado con Jest
 
-## Usage
 
-This project is for practicing INTRO JS, so feel free to modify the code and experiment with different features and functionalities.
+## Wimblecode
 
-## Contributing
+Para usar el código hay que crear un nuevo objeto
+```const myGame = game()```
+y llamar a las funciones correspondientes para cada ejercicio.
+Funciones accesibles:
+- ```myGame.createMatchs()``` -> crea los partidos de forma aleatoria a partir de un array ya establecido
+- ```console.log(myGame.pointWonBy([1, 1]))``` -> es la forma de marcar un punto. El primer parámetro es el id del encuentro, y el segundo parametro es el id del jugodor. Por ejemplo, si marca el jugador 1 del partido 2 la funcion a utilizar es myGame.pointWonBy([2, 1])
+- ```console.log(myGame.getCurrentRoundScore())``` -> Muestra el marcador de los partidos
+- Otras funciones que se pueden usar:
+    - ```myGame.getPlayers()``` -> obtiene los jugadores
+    - ```myGame.getMatchs()``` -> obtiene los partidos
 
-Contributions are welcome! If you have any ideas or improvements for this project, please submit a pull request or open an issue.
+#### Como funciona
+Lo primero que hay que hacer es instanciar un nuevo objeto de game()
+Crear los partidos con ```myGame.createMatchs()``` -> se crean los partidos de forma aleatorio de un array de 4 jugadores.
 
-## License
+Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` donde el primer parámetro es el partido 1 y el segundo corresponde al jugador 1. Cada partido tiene un id, y dos jugadores con sus respectivos id, tal i como se refleja en el siguiente fragmento de código:
+```
+[
+ {
+  "matchId": 1,
+  "players": [
+   {
+    "id": 1,
+    "name": "Alberto C",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 2
+   },
+   {
+    "id": 2,
+    "name": "David J",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 1
+   }
+  ],
+  "winner": "Alberto C"
+ },
+ {
+  "matchId": 2,
+  "players": [
+   {
+    "id": 1,
+    "name": "Javier M",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 0,
+    "scoreDeuce": []
+   },
+   {
+    "id": 2,
+    "name": "Edu Aguilar",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 2,
+    "scoreDeuce": []
+   }
+  ],
+  "winner": "Edu Aguilar"
+ },
+ {
+  "matchId": 3,
+  "players": [
+   {
+    "id": 1,
+    "name": "Alberto C",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 0
+   },
+   {
+    "id": 2,
+    "name": "Edu Aguilar",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 0
+   }
+  ],
+  "winner": null
+ }
+]
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
+
+Cuando se usa la función ```myGame.createMatchs()``` sólo se generan los partidos. 
+La final se crea de forma automática, en función de los ganadores de los diferentes partidos.
+Cuando se finaliza el último partido se cea de forma automática la final.
+
+## Uso
+
+Este proyecto es para practicar INTRO JS, así que siéntete libre de modificar el código y experimentar con diferentes características y funcionalidades.
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas! Si tiene alguna idea o mejora para este proyecto, envíe un pull request o abra un incidencia.
+
+## Licencia
+
+Este proyecto tiene la licencia MIT; consulte el archivo de LICENCIA para obtener más detalles.

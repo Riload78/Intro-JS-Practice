@@ -754,7 +754,7 @@ console.log(myGame.pointWonBy([2, 2]))
 console.log(myGame.pointWonBy([2, 2]))
 console.log(myGame.pointWonBy([2, 2]))
 
-
+console.log(myGame.getMatchs())
 
 
 
