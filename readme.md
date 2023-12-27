@@ -48,7 +48,7 @@ Para usar el código hay que crear un nuevo objeto
 ```const myGame = game()```
 y llamar a las funciones correspondientes para cada ejercicio.
 Funciones accesibles:
-- ```myGame.createMatchs()``` -> crea los partidos de forma aleatoria a partir de un array ya establecido
+- ```myGame.createMatchs()``` -> crea los partidos de forma aleatoria a partir de un array de 4 jugadores ya establecido
 - ```console.log(myGame.pointWonBy([1, 1]))``` -> es la forma de marcar un punto. El primer parámetro es el id del encuentro, y el segundo parametro es el id del jugodor. Por ejemplo, si marca el jugador 1 del partido 2 la funcion a utilizar es myGame.pointWonBy([2, 1])
 - ```console.log(myGame.getCurrentRoundScore())``` -> Muestra el marcador de los partidos
 - Otras funciones que se pueden usar:
@@ -59,7 +59,7 @@ Funciones accesibles:
 Lo primero que hay que hacer es instanciar un nuevo objeto de game()
 Crear los partidos con ```myGame.createMatchs()``` -> se crean los partidos de forma aleatorio de un array de 4 jugadores.
 
-Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` donde el primer parámetro es el partido 1 y el segundo corresponde al jugador 1. Cada partido tiene un id, y dos jugadores con sus respectivos id, tal i como se refleja en el siguiente fragmento de código:
+Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` donde el primer parámetro es el partido 1 y el segundo corresponde al jugador 1. Cada partido tiene un id, y dos jugadores con sus respectivos id, tal y como se refleja en el siguiente fragmento de código:
 ```
 [
  {
@@ -123,36 +123,6 @@ Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` dond
    }
   ],
   "winner": "Edu Aguilar"
- },
- {
-  "matchId": 3,
-  "players": [
-   {
-    "id": 1,
-    "name": "Alberto C",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 0
-   },
-   {
-    "id": 2,
-    "name": "Edu Aguilar",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 0
-   }
-  ],
-  "winner": null
  }
 ]
 
@@ -160,7 +130,20 @@ Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` dond
 
 Cuando se usa la función ```myGame.createMatchs()``` sólo se generan los partidos. 
 La final se crea de forma automática, en función de los ganadores de los diferentes partidos.
-Cuando se finaliza el último partido se cea de forma automática la final.
+Cuando se finaliza el último partido se crea de forma automática la final, que se añade al array de matchs con los jugadores
+que ganaros los 2 partidos anteriores.
+
+El marcador muestra el estado de los puntos, es estado Deuce con la ventaja para el jugador que la tenga,
+los round y los juegos, tal y como se indica en el siguiente fragmento de consola
+
+```
+Encuentro 1: Ganador Edu Aguilar
+Encuentro 1: Ganador Edu Aguilar
+Encuentro 2: Ganador Javier M
+Encuentro 2: Ganador Javier M
+Encuentro 3: Edu Aguilar - 40 Deuce  Ventaja|| Round - 0 Juego - 0
+Encuentro 3: Javier M - 40 Deuce  || Round - 0 Juego - 0
+```
 
 ## Uso
 
