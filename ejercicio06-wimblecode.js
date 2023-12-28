@@ -2,7 +2,6 @@ const game = () => {
   const initialPlayers = ['Alberto C', 'David J', 'Javier M', 'Edu Aguilar']
   const firstMatch = []
   const secondMatch = []
-  let marcador = ''
   let matchs = []
 
   const getPlayers = () => initialPlayers
@@ -12,11 +11,6 @@ const game = () => {
   const setMatchs = (value) => {
     matchs = value
     return matchs
-  }
-
-  const setScore = (score) => {
-    marcador = score
-    return marcador
   }
 
   /**
@@ -191,9 +185,10 @@ const game = () => {
         scoreInfo = `Ganador ${matchBoard[player.matchId - 1].winner}`
       } else {
         const isDeuce = player.isDeuce ? 'Deuce ' : ''
-        const showCountDeuce = player.isAdvance ? 'Ventaja' : ''
+        const showCountDeuce = player.isAdvance ? 'Ventaja ' : ''
         scoreInfo = `${player.name} - ${player.score} ${isDeuce} ${showCountDeuce}|| Round - ${player.round} Juego - ${player.juegos}`
       }
+      result += '--------------------------------------------------------\n'
       result += `Encuentro ${player.matchId}: ${scoreInfo} \n`
     })
 
@@ -232,7 +227,7 @@ const game = () => {
    * Deuce State to control Deuce
    * @param {array} players
    * @returns {string}
-   */
+  */
   const deuceState = (players) => {
     const deucePlayers = players.map(item => ({ ...item, isDeude: true }))
     const deuceP1 = deucePlayers[0].countDeuce
@@ -256,7 +251,7 @@ const game = () => {
    * @param {array} p1
    * @param {array} p2
    * @returns {boolean}
-   */
+  */
   const checkWinRound = (p1, p2) => {
     let isWin = false
     if (Math.abs(p1.length - p2.length) === 2) {
@@ -269,7 +264,7 @@ const game = () => {
    *  Check if is juego, champion or round
    * @param {array} players
    * @returns {string}
-   */
+  */
   const deuceRoundState = (players) => {
     let result = ''
     const obj = matchs.find(item => item.matchId === players[0].matchId)
@@ -338,7 +333,7 @@ const game = () => {
    * Check if is Advance in deuce State
    * @param {array} players
    * @returns {string}
-   */
+  */
   const deuceAdvanceState = (players) => {
     let result = ''
     const jugadorConMayorScore = getPlayerWithHightScoreDeuce(players)
@@ -357,7 +352,7 @@ const game = () => {
    * check if is equal in deuce state
    * @param {array} players
    * @returns {string}
-   */
+  */
   const equalState = (players) => {
     let result = ''
     for (const match of matchs) {
@@ -373,7 +368,7 @@ const game = () => {
    * Check the round
    * @param {array} players
    * @returns {string}
-   */
+  */
   const roundState = (players) => {
     let result = ''
     const obj = matchs.find(item => item.matchId === players[0].matchId)
@@ -389,7 +384,7 @@ const game = () => {
       }
       resetRound(obj)
       result = 'round'
-    } else if (obj.players[jugadorConMayorScore.id - 1].round > 3 && Math.abs(obj.players[0].round - obj.players[1].round) < 1) {
+    } else if ((obj.players[jugadorConMayorScore.id - 1].round > 3 && obj.players[jugadorConMayorScore.id - 1].round < 7) && Math.abs(obj.players[0].round - obj.players[1].round) <= 1) {
       for (const match of matchs) {
         for (const player of match.players) {
           if (player.id === jugadorConMayorScore.id && match.matchId === jugadorConMayorScore.matchId) {
@@ -561,7 +556,7 @@ const game = () => {
 const myGame = game()
 console.log(myGame.getPlayers())
 console.log(myGame.createMatchs())
-console.log(myGame.getMatchs())
+// console.log(myGame.getMatchs())
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
@@ -570,9 +565,115 @@ console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 
 console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 1]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
+console.log(myGame.pointWonBy([2, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+console.log(myGame.pointWonBy([1, 1]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+console.log(myGame.pointWonBy([1, 2]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
@@ -666,7 +767,6 @@ console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
 
-
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
@@ -783,7 +883,6 @@ console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
-
 
 console.log(myGame.pointWonBy([2, 1]))
 console.log(myGame.pointWonBy([2, 1]))
@@ -896,7 +995,6 @@ console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 2]))
 console.log(myGame.pointWonBy([3, 2]))
 
-
 console.log(myGame.pointWonBy([3, 2]))
 console.log(myGame.pointWonBy([3, 2]))
 console.log(myGame.pointWonBy([3, 2]))
@@ -985,7 +1083,7 @@ console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
+console.log(myGame.pointWonBy([3, 2])) */
 
 /* console.log(myGame.pointWonBy([3, 2]))
 console.log(myGame.pointWonBy([3, 2]))
@@ -1007,5 +1105,5 @@ console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 1]))
 console.log(myGame.pointWonBy([3, 1])) */
 
-console.log(myGame.getMatchs())
+// console.log(myGame.getMatchs())
 console.log(myGame.getCurrentRoundScore())
