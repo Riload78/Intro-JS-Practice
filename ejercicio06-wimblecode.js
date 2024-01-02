@@ -286,11 +286,9 @@ const game = () => {
           }
         }
       }
-
     } else if (Math.abs(obj.players[0].countDeuce.length - obj.players[1].countDeuce.length) === 2) {
       // el jugadorConMayorScore tiene ventaja y gana el round
-      if ((Math.abs(obj.players[0].round - obj.players[1].round) >= 2 && obj.players[playerMoveId - 1].round >= 4)
-       && jugadorConMayorJuegos === playerMoveId) {
+      if ((Math.abs(obj.players[0].round - obj.players[1].round) >= 2 && obj.players[playerMoveId - 1].round >= 4) && playerMoveId === jugadorConMayorJuegos) {
         // es juego -> juego +1
         if (checkWinMatch(obj)) {
           const findPlayer = obj.players.find(player => player.juegos === 2)
@@ -374,10 +372,11 @@ const game = () => {
   */
   const roundState = (players, player) => {
     let result = ''
-    console.log(player);
+    console.log(player)
     const playerMoveId = player
     const obj = matchs.find(item => item.matchId === players[0].matchId)
     const jugadorConMayorScore = getPlayerWithHightScore(players)
+    const jugadorConMayorRound = getPlayeWhithHightRound(players)
     const jugadorConMayorJuegos = getPlayeWhithHightJuegos(players)
 
     if (obj.players[player - 1].round <= 3) {
@@ -391,7 +390,7 @@ const game = () => {
       resetRound(obj)
       result = 'round'
     } else if ((obj.players[player - 1].round > 3 && obj.players[player - 1].round < 7)
-      && jugadorConMayorJuegos !== playerMoveId && obj.players[player - 1].juegos < 2) {
+      && obj.players[player - 1].round <= obj.players[jugadorConMayorRound - 1].round) {
       for (const match of matchs) {
         for (const player of match.players) {
           if (player.id === jugadorConMayorScore.id && match.matchId === jugadorConMayorScore.matchId) {
@@ -450,6 +449,20 @@ const game = () => {
     }
 
     return result
+  }
+
+  const getPlayeWhithHightRound = (players) => {
+    let maxJuegos = players[0].round;
+    let playerIdMaxRound = players[0].id
+
+    for (let i = 1; i < players.length; i++) {
+      if (players[i].juegos > maxJuegos) {
+        maxJuegos = players[i].juegos
+        playerIdMaxRound = players[i].id
+      }
+    }
+
+    return playerIdMaxRound
   }
 
   const getPlayeWhithHightJuegos = (players) => {
@@ -598,121 +611,115 @@ const game = () => {
 const myGame = game()
 console.log(myGame.getPlayers())
 console.log(myGame.createMatchs())
-const matchs = [
+/* const matchs = [
   {
-    "matchId": 1,
-    "players": [
-      {
-        "id": 1,
-        "name": "Javier M",
-        "score": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "isDeuce": false,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 4,
-        "juegos": 2,
-        "scoreDeuce": []
-      },
-      {
-        "id": 2,
-        "name": "Alberto C",
-        "score": [
-          0,
-          0,
-          0
-        ],
-        "isDeuce": false,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 3,
-        "juegos": 2,
-        "scoreDeuce": []
-      }
+  "matchId": 1,
+  "players": [
+   {
+    "id": 1,
+    "name": "Javier M",
+    "score": [
+     0
     ],
-    "winner": "Javier M"
-  },
-  {
-    "matchId": 2,
-    "players": [
-      {
-        "id": 1,
-        "name": "David J",
-        "score": [
-          0
-        ],
-        "isDeuce": false,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 5,
-        "juegos": 2,
-        "scoreDeuce": []
-      },
-      {
-        "id": 2,
-        "name": "Edu Aguilar",
-        "score": [
-          0
-        ],
-        "isDeuce": false,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 0,
-        "juegos": 0,
-        "scoreDeuce": []
-      }
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 0,
+    "scoreDeuce": []
+   },
+   {
+    "id": 2,
+    "name": "Alberto C",
+    "score": [
+     0
     ],
-    "winner": "David J"
-  },
-  {
-    "matchId": 3,
-    "players": [
-      {
-        "id": 1,
-        "name": "Javier M",
-        "score": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "isDeuce": true,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 0,
-        "juegos": 2,
-        "scoreDeuce": []
-      },
-      {
-        "id": 2,
-        "name": "David J",
-        "score": [
-          0,
-          0,
-          0
-        ],
-        "isDeuce": false,
-        "countDeuce": [],
-        "isAdvance": false,
-        "round": 0,
-        "juegos": 3,
-        "scoreDeuce": []
-      }
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 2,
+    "scoreDeuce": []
+   }
+  ],
+  "winner": "Alberto C"
+ },
+ {
+  "matchId": 2,
+  "players": [
+   {
+    "id": 1,
+    "name": "David J",
+    "score": [
+     0
     ],
-    "winner": null
-  }
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 2,
+    "scoreDeuce": []
+   },
+   {
+    "id": 2,
+    "name": "Edu Aguilar",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 0,
+    "scoreDeuce": []
+   }
+  ],
+  "winner": "David J"
+ },
+ {
+  "matchId": 3,
+  "players": [
+   {
+    "id": 1,
+    "name": "Alberto C",
+    "score": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 4,
+    "juegos": 2,
+    "scoreDeuce": []
+   },
+   {
+    "id": 2,
+    "name": "David J",
+    "score": [
+     0,
+     0,
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 6,
+    "juegos": 1,
+    "scoreDeuce": []
+   }
+  ],
+  "winner": null
+ }
 ]
 myGame.setMatchs(matchs)
 
 console.log(myGame.pointWonBy([3, 1]))
-console.log(myGame.getMatchs())
-console.log(myGame.getCurrentRoundScore())
+console.log(myGame.getCurrentRoundScore()) */
 
-//myGame.randomPoints()
+myGame.randomPoints()
 //console.log(myGame.getMatchs())
 /* console.log(myGame.pointWonBy([1, 1]))
 console.log(myGame.pointWonBy([1, 1]))
