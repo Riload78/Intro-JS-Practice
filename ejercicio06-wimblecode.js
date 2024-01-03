@@ -288,9 +288,9 @@ const game = () => {
       }
     } else if (Math.abs(obj.players[0].countDeuce.length - obj.players[1].countDeuce.length) === 2) {
       // el jugadorConMayorScore tiene ventaja y gana el round
-      if ((Math.abs(obj.players[0].round - obj.players[1].round) >= 2 && obj.players[playerMoveId - 1].round >= 4) && playerMoveId === jugadorConMayorJuegos) {
+      if ((Math.abs(obj.players[0].round - obj.players[1].round) >= 2 && obj.players[playerMoveId - 1].round >= 4) && Math.abs(obj.players[0].juegos - obj.players[1].juegos) < 2) {
         // es juego -> juego +1
-        if (checkWinMatch(obj)) {
+        if (checkWinMatchDeuce(obj, playerMoveId)) {
           const findPlayer = obj.players.find(player => player.juegos === 2)
           const nameWinPlayer = findPlayer.name
           obj.winner = nameWinPlayer
@@ -373,7 +373,6 @@ const game = () => {
   const roundState = (players, player) => {
     let result = ''
     console.log(player)
-    const playerMoveId = player
     const obj = matchs.find(item => item.matchId === players[0].matchId)
     const jugadorConMayorScore = getPlayerWithHightScore(players)
     const jugadorConMayorRound = getPlayeWhithHightRound(players)
@@ -390,7 +389,7 @@ const game = () => {
       resetRound(obj)
       result = 'round'
     } else if ((obj.players[player - 1].round > 3 && obj.players[player - 1].round < 7)
-      && obj.players[player - 1].round <= obj.players[jugadorConMayorRound - 1].round) {
+      && Math.abs(obj.players[0].round - obj.players[1].round) >= 0 && Math.abs(obj.players[0].round - obj.players[1].round) <= 2) {
       for (const match of matchs) {
         for (const player of match.players) {
           if (player.id === jugadorConMayorScore.id && match.matchId === jugadorConMayorScore.matchId) {
@@ -402,7 +401,7 @@ const game = () => {
       result = 'round'
     } else {
       // gana un Juego
-      if (checkWinMatch(obj) && jugadorConMayorJuegos === playerMoveId) {
+      if (checkWinMatch(obj, player)) {
         const findPlayer = obj.players.find(player => player.juegos === 2)
         const nameWinPlayer = findPlayer.name
         obj.winner = nameWinPlayer
@@ -452,12 +451,12 @@ const game = () => {
   }
 
   const getPlayeWhithHightRound = (players) => {
-    let maxJuegos = players[0].round;
+    let maxRound = players[0].round;
     let playerIdMaxRound = players[0].id
 
     for (let i = 1; i < players.length; i++) {
-      if (players[i].juegos > maxJuegos) {
-        maxJuegos = players[i].juegos
+      if (players[i].round > maxRound) {
+        maxRound = players[i].round
         playerIdMaxRound = players[i].id
       }
     }
@@ -476,7 +475,18 @@ const game = () => {
       }
     }
 
-    return playerIdMaxJuegos
+    return maxJuegos
+  }
+
+  const checkWinMatchDeuce = (obj, player) => {
+    let result = false
+    const findPlayer = obj.players.find(player => player.juegos === 2)
+    if (findPlayer === undefined) {
+      result = false
+    } else if (findPlayer.id === player.id) {
+      result = true
+    }
+    return result
   }
 
   /**
@@ -599,7 +609,6 @@ const game = () => {
       while (matchs[index].winner === null) {
         console.log(pointWonBy([matchs[index].matchId, Math.floor(Math.random() * 2) + 1]))
         console.log(getCurrentRoundScore())
-        console.log(myGame.getMatchs())
       }
     }
   }
@@ -612,12 +621,12 @@ const myGame = game()
 console.log(myGame.getPlayers())
 console.log(myGame.createMatchs())
 /* const matchs = [
-  {
+ {
   "matchId": 1,
   "players": [
    {
     "id": 1,
-    "name": "Javier M",
+    "name": "Alberto C",
     "score": [
      0
     ],
@@ -625,12 +634,12 @@ console.log(myGame.createMatchs())
     "countDeuce": [],
     "isAdvance": false,
     "round": 0,
-    "juegos": 0,
+    "juegos": 2,
     "scoreDeuce": []
    },
    {
     "id": 2,
-    "name": "Alberto C",
+    "name": "Edu Aguilar",
     "score": [
      0
     ],
@@ -657,12 +666,12 @@ console.log(myGame.createMatchs())
     "countDeuce": [],
     "isAdvance": false,
     "round": 0,
-    "juegos": 2,
+    "juegos": 0,
     "scoreDeuce": []
    },
    {
     "id": 2,
-    "name": "Edu Aguilar",
+    "name": "Javier M",
     "score": [
      0
     ],
@@ -670,11 +679,11 @@ console.log(myGame.createMatchs())
     "countDeuce": [],
     "isAdvance": false,
     "round": 0,
-    "juegos": 0,
+    "juegos": 2,
     "scoreDeuce": []
    }
   ],
-  "winner": "David J"
+  "winner": "Javier M"
  },
  {
   "matchId": 3,
@@ -691,23 +700,21 @@ console.log(myGame.createMatchs())
     "isDeuce": false,
     "countDeuce": [],
     "isAdvance": false,
-    "round": 4,
+    "round": 5,
     "juegos": 2,
     "scoreDeuce": []
    },
    {
     "id": 2,
-    "name": "David J",
+    "name": "Javier M",
     "score": [
-     0,
-     0,
      0
     ],
     "isDeuce": false,
     "countDeuce": [],
     "isAdvance": false,
-    "round": 6,
-    "juegos": 1,
+    "round": 5,
+    "juegos": 2,
     "scoreDeuce": []
    }
   ],
@@ -1106,4 +1113,4 @@ console.log(myGame.pointWonBy([3, 2]))
 console.log(myGame.pointWonBy([3, 2])) */
 
 // console.log(myGame.getCurrentRoundScore())
-console.log(myGame.getMatchs())
+//console.log(myGame.getMatchs())
