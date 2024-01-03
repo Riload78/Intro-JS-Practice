@@ -76,7 +76,7 @@ const nameProyects = (data) => {
 }
 
 /**
- * Return proyects list
+ * Return proyects list with Map
  * @param {object} data
  * @returns {object}
  */
