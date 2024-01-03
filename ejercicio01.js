@@ -49,11 +49,11 @@ const getDate = (user, subject) => {
  * @param {string} subject
  */
 
-const getDateMap = (user, subject) => {
+const getDateFind = (user, subject) => {
   const data = user.bootcamp.find(bootcamp => bootcamp.subject === subject)
   return `La fecha de inicio del modulo de ${data.subject} es ${data.date}`
 }
 
 console.log(getDate(user, 'React'))
 
-console.log(getDateMap(user, 'React'))
+console.log(getDateFind(user, 'React'))

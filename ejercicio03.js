@@ -35,14 +35,27 @@ const datos = [
  */
 
 const getDevelopJs = (data) => {
+  let result
   for (const dev of data) {
     const abilityes = dev.habilidades
     for (const ability of abilityes) {
       if (ability === 'JavaScript') {
-        return dev
+        result = dev
       }
     }
   }
+  return result
+}
+
+/**
+ * Get develops who works with JS with Find
+ * @param {object} data
+ * @returns {object}
+ */
+
+const getDevelopJsMap = (data) => {
+  const result = data.find(item => item.habilidades.includes('JavaScript'))
+  return result
 }
 
 /**
@@ -62,8 +75,27 @@ const nameProyects = (data) => {
   return proyectList
 }
 
+/**
+ * Return proyects list
+ * @param {object} data
+ * @returns {object}
+ */
+const nameProjectsMap = (data) => {
+  const result = []
+  const proyectList = data.map(item => item.proyectos)
+  const proyectArr = result.concat(...proyectList)
+  const proyectNames = proyectArr.map(proyect => proyect.nombre)
+  return proyectNames
+}
+
 const devJs = getDevelopJs(datos)
 console.log(devJs)
 
+const devJsFind = getDevelopJsMap(datos)
+console.log(devJsFind)
+
 const listProyects = nameProyects(datos)
 console.log(listProyects)
+
+const listProyectsMap = nameProjectsMap(datos)
+console.log(listProyectsMap)
