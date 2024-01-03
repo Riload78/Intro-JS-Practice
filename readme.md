@@ -55,6 +55,8 @@ Funciones accesibles:
 - Otras funciones que se pueden usar:
     - ```myGame.getPlayers()``` -> obtiene los jugadores
     - ```myGame.getMatchs()``` -> obtiene los partidos
+- Para mostar el marcador se usa:
+    - ```getCurrentRoundScore()```
 - Para la simulación del campeonato usar:
     - ```myGame.randomPoints()```
 
@@ -131,12 +133,12 @@ Para marcar puntos hay que usar la función ```myGame.pointWonBy([1, 1])``` dond
 
 ```
 
-Cuando se usa la función ```myGame.createMatchs()``` sólo se generan los partidos. 
+Cuando se usa la función ```myGame.createMatchs()``` sólo se generan los partidos (2). 
 La final se crea de forma automática, en función de los ganadores de los diferentes partidos.
 Cuando se finaliza el último partido se crea de forma automática la final, que se añade al array de matchs con los jugadores
-que ganaros los 2 partidos anteriores.
+que ganaron los 2 partidos anteriores.
 
-El marcador muestra el estado de los puntos, es estado Deuce con la ventaja para el jugador que la tenga,
+El marcador muestra el estado de los puntos, el estado Deuce con la ventaja para el jugador que la tenga,
 los round y los juegos, tal y como se indica en el siguiente fragmento de consola
 
 ```
