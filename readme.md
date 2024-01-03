@@ -56,7 +56,7 @@ Funciones accesibles:
     - ```myGame.getPlayers()``` -> obtiene los jugadores
     - ```myGame.getMatchs()``` -> obtiene los partidos
 - Para la simulación del campeonato usar:
-    - ```myGame.randomPoints()``` -> obtiene los jugadores
+    - ```myGame.randomPoints()```
 
 #### Como funciona
 Lo primero que hay que hacer es instanciar un nuevo objeto de game()
