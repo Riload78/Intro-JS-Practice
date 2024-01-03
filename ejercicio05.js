@@ -8,7 +8,7 @@ Cada canción tiene las siguientes propiedades:
     Duración(en minutos)
 
 Implementa un programa que permita realizar las siguientes operaciones:
-    * Agregar Canción: Permite al usuario ingresar información sobre una nueva canción yagrégala al catálogo.
+    * Agregar Canción: Permite al usuario ingresar información sobre una nueva canción y agrégala al catálogo.
     * Listar Canciones: Muestra en la consola la información detallada de todas las cancionesen el catálogo.
                     Si el catálogo está vacío, imprime un mensaje indicando que no hay canciones.
     * Buscar Canciones por Género: Pide al usuario que ingrese un género y muestra en la consola todas las canciones de ese género.
@@ -113,7 +113,7 @@ myCatalog.listarCanciones()
 myCatalog.calcularPromedioDuración()
 myCatalog.getCatalog()
 
-// Add song with wrong format force throw error
+// Add song with wrong format to force throw error
 // myCatalog.agregarCancion(songs[3])
 
 console.log('************************************')

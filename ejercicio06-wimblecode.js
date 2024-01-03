@@ -84,7 +84,6 @@ const game = () => {
     const playerMove = targetObject.players.find(item => item.id === player)
     // actualizo los puntos
     // check if isDeuce
-    // console.log('playerMove.isDeuce', playerMove.isDeuce)
     if (playerMove.isDeuce === true) {
       playerMove.countDeuce.push(0)
     } else {
@@ -372,11 +371,8 @@ const game = () => {
   */
   const roundState = (players, player) => {
     let result = ''
-    console.log(player)
     const obj = matchs.find(item => item.matchId === players[0].matchId)
     const jugadorConMayorScore = getPlayerWithHightScore(players)
-    const jugadorConMayorRound = getPlayeWhithHightRound(players)
-    const jugadorConMayorJuegos = getPlayeWhithHightJuegos(players)
 
     if (obj.players[player - 1].round <= 3) {
       for (const match of matchs) {
@@ -388,8 +384,7 @@ const game = () => {
       }
       resetRound(obj)
       result = 'round'
-    } else if ((obj.players[player - 1].round > 3 && obj.players[player - 1].round < 7)
-      && Math.abs(obj.players[0].round - obj.players[1].round) >= 0 && Math.abs(obj.players[0].round - obj.players[1].round) <= 2) {
+    } else if ((obj.players[player - 1].round > 3 && obj.players[player - 1].round < 7) && Math.abs(obj.players[0].round - obj.players[1].round) >= 0 && Math.abs(obj.players[0].round - obj.players[1].round) <= 2) {
       for (const match of matchs) {
         for (const player of match.players) {
           if (player.id === jugadorConMayorScore.id && match.matchId === jugadorConMayorScore.matchId) {
@@ -410,7 +405,6 @@ const game = () => {
           const isFinal = matchs.filter(match => match.winner !== null)
           const finalPlayers = []
           for (let index = 0; index < (isFinal.length); index++) {
-            console.log(isFinal[index].winner)
             finalPlayers.push({
               id: index + 1,
               name: isFinal[index].winner,
@@ -450,28 +444,12 @@ const game = () => {
     return result
   }
 
-  const getPlayeWhithHightRound = (players) => {
-    let maxRound = players[0].round;
-    let playerIdMaxRound = players[0].id
-
-    for (let i = 1; i < players.length; i++) {
-      if (players[i].round > maxRound) {
-        maxRound = players[i].round
-        playerIdMaxRound = players[i].id
-      }
-    }
-
-    return playerIdMaxRound
-  }
-
   const getPlayeWhithHightJuegos = (players) => {
-    let maxJuegos = players[0].juegos;
-    let playerIdMaxJuegos = players[0].id
+    let maxJuegos = players[0].juegos
 
     for (let i = 1; i < players.length; i++) {
       if (players[i].juegos > maxJuegos) {
-        maxJuegos = players[i].juegos;
-        playerIdMaxJuegos = players[i].id
+        maxJuegos = players[i].juegos
       }
     }
 
@@ -601,10 +579,11 @@ const game = () => {
     }
   }
 
+  /**
+   * Create a Ramdom Championship
+   * @param {} obj
+   */
   const randomPoints = () => {
-    // let Math.floor(Math.random() * 2) + 1
-    const isFinal = matchs.filter(match => match.winner !== null)
-    console.log('isFinal', isFinal)
     for (let index = 0; index < 3; index++) {
       while (matchs[index].winner === null) {
         console.log(pointWonBy([matchs[index].matchId, Math.floor(Math.random() * 2) + 1]))
@@ -620,497 +599,4 @@ const game = () => {
 const myGame = game()
 console.log(myGame.getPlayers())
 console.log(myGame.createMatchs())
-/* const matchs = [
- {
-  "matchId": 1,
-  "players": [
-   {
-    "id": 1,
-    "name": "Alberto C",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "Edu Aguilar",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": "Alberto C"
- },
- {
-  "matchId": 2,
-  "players": [
-   {
-    "id": 1,
-    "name": "David J",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 0,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "Javier M",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": "Javier M"
- },
- {
-  "matchId": 3,
-  "players": [
-   {
-    "id": 1,
-    "name": "Alberto C",
-    "score": [
-     0,
-     0,
-     0,
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 5,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "Javier M",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 5,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": null
- }
-]
-myGame.setMatchs(matchs)
-
-console.log(myGame.pointWonBy([3, 1]))
-console.log(myGame.getCurrentRoundScore()) */
-
 myGame.randomPoints()
-//console.log(myGame.getMatchs())
-/* console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-console.log(myGame.pointWonBy([1, 1]))
-
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-console.log(myGame.pointWonBy([1, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-console.log(myGame.pointWonBy([2, 2]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-console.log(myGame.pointWonBy([2, 1]))
-
-console.log(myGame.pointWonBy([3, 1]))
-console.log(myGame.pointWonBy([3, 1]))
-console.log(myGame.pointWonBy([3, 1]))
-console.log(myGame.pointWonBy([3, 1]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2]))
-console.log(myGame.pointWonBy([3, 2])) */
-
-// console.log(myGame.getCurrentRoundScore())
-//console.log(myGame.getMatchs())
