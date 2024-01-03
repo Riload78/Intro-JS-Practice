@@ -2,7 +2,7 @@
 
 ¡Bienvenido al proyecto INTRO JS Practice! Este proyecto contiene ejercicios básicos de Javascript
 
-## ïndice de contenidos
+## Índice de contenidos
 
 - [Introducción](#introdución)
 - [Ejercicios](#ejercicios)
@@ -38,6 +38,7 @@ Para instalar el proyecto en tu maquina local:
         - babel
         - jest (test)
         - standard (eslintConfig)
+4. Los ejercicios se ejecutan con node.js
 ## Ejercicio 05 Biblioteca Musical
 Realizado con clases y testeado con Jest
 
@@ -54,6 +55,8 @@ Funciones accesibles:
 - Otras funciones que se pueden usar:
     - ```myGame.getPlayers()``` -> obtiene los jugadores
     - ```myGame.getMatchs()``` -> obtiene los partidos
+- Para la simulación del campeonato usar:
+    - ```myGame.randomPoints()``` -> obtiene los jugadores
 
 #### Como funciona
 Lo primero que hay que hacer es instanciar un nuevo objeto de game()
@@ -143,6 +146,12 @@ Encuentro 2: Ganador Javier M
 Encuentro 2: Ganador Javier M
 Encuentro 3: Edu Aguilar - 40 Deuce  Ventaja|| Round - 0 Juego - 0
 Encuentro 3: Javier M - 40 Deuce  || Round - 0 Juego - 0
+```
+
+Para simular el campeonato usar
+
+```
+randomPoints()
 ```
 
 ## Uso
