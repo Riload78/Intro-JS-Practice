@@ -36,11 +36,24 @@ const getDate = (user, subject) => {
       const arraySubjects = user[key]
       for (const item of arraySubjects) {
         if (item.subject === subject) {
-          return `La fecha de incio del modulo de ${subject} es ${item.date}`
+          return `La fecha de inicio del modulo de ${subject} es ${item.date}`
         }
       }
     }
   }
 }
 
+/**
+ * Get Subjet Date with .find
+ * @param {object} user
+ * @param {string} subject
+ */
+
+const getDateMap = (user, subject) => {
+  const data = user.bootcamp.find(bootcamp => bootcamp.subject === subject)
+  return `La fecha de inicio del modulo de ${data.subject} es ${data.date}`
+}
+
 console.log(getDate(user, 'React'))
+
+console.log(getDateMap(user, 'React'))
