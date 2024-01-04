@@ -240,7 +240,7 @@ const game = () => {
         result = deuceAdvanceState(players, player)
       }
     } else {
-      result = equalState(players)
+      result = equalState(players, player)
     }
     return result
   }
@@ -275,6 +275,8 @@ const game = () => {
     const otherPlayer = obj.players.find(player => player.id !== playerMoveId)
     const roundsPlayerMove = playerMove.round
     const roundsOtherPlayer = otherPlayer.round
+    const countDeucePlayerMove = playerMove.countDeuce.length
+    const countDeuceOtherPlayer = otherPlayer.countDeuce.length
     const juegosPlayerMove = playerMove.juegos
     const juegosOtherPlayer = otherPlayer.juegos
 
@@ -301,11 +303,11 @@ const game = () => {
       }
     } else if (Math.abs(obj.players[0].countDeuce.length - obj.players[1].countDeuce.length) === 2) {
       // el jugadorConMayorScore tiene ventaja y gana el round
-      if (compareRoundDeuce(roundsPlayerMove, roundsOtherPlayer)) {
+      if (compareRoundDeuce(roundsPlayerMove, roundsOtherPlayer) && jugadorConMayorScoreDeuce.id === playerMoveId) {
         // es juego -> juego +1
         if (juegosPlayerMove === 2) {
-          const findPlayer = obj.players.find(player => player.juegos === 2)
-          const nameWinPlayer = findPlayer.name
+          // const findPlayer = obj.players.find(player => player.juegos === 2)
+          const nameWinPlayer = playerMove.name
           obj.winner = nameWinPlayer
           result = 'champion'
         } else {
@@ -354,7 +356,7 @@ const game = () => {
     let result = false
     if (playermove < otherplayer) {
       result = false
-    } else if (Math.abs(playermove - otherplayer) >= 2) {
+    } else if (playermove >= 4 && playermove !== 7 && Math.abs(playermove - otherplayer) >= 2) {
       result = true
     }
     return result
@@ -649,45 +651,13 @@ const myGame = game()
 console.log(myGame.getPlayers())
 
 console.log(myGame.createMatchs())
-const match = [
- {
+/* const match = [
+{
   "matchId": 1,
   "players": [
    {
     "id": 1,
-    "name": "Alberto C",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
     "name": "Edu Aguilar",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": "Alberto C"
- },
- {
-  "matchId": 2,
-  "players": [
-   {
-    "id": 1,
-    "name": "David J",
     "score": [
      0
     ],
@@ -708,34 +678,50 @@ const match = [
     "countDeuce": [],
     "isAdvance": false,
     "round": 0,
-    "juegos": 1,
+    "juegos": 2,
     "scoreDeuce": []
    }
   ],
-  "winner": "David J"
+  "winner": "Edu Aguilar"
  },
  {
-  "matchId": 3,
+  "matchId": 2,
   "players": [
    {
     "id": 1,
     "name": "Alberto C",
     "score": [
-     0,
-     0,
-     0,
      0
     ],
-    "isDeuce": true,
+    "isDeuce": false,
     "countDeuce": [],
     "isAdvance": false,
-    "round": 1,
+    "round": 0,
     "juegos": 2,
     "scoreDeuce": []
    },
    {
     "id": 2,
     "name": "David J",
+    "score": [
+     0
+    ],
+    "isDeuce": false,
+    "countDeuce": [],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 1,
+    "scoreDeuce": []
+   }
+  ],
+  "winner": "Alberto C"
+ },
+ {
+  "matchId": 3,
+  "players": [
+   {
+    "id": 1,
+    "name": "Edu Aguilar",
     "score": [
      0,
      0,
@@ -744,10 +730,31 @@ const match = [
     ],
     "isDeuce": true,
     "countDeuce": [
+     0,
+     0
+    ],
+    "isAdvance": false,
+    "round": 0,
+    "juegos": 2,
+    "scoreDeuce": []
+   },
+   {
+    "id": 2,
+    "name": "Alberto C",
+    "score": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "isDeuce": true,
+    "countDeuce": [
+     0,
+     0,
      0
     ],
     "isAdvance": true,
-    "round": 3,
+    "round": 2,
     "juegos": 2,
     "scoreDeuce": []
    }
@@ -756,8 +763,8 @@ const match = [
  }
 ]
 myGame.setMatchs(match)
-myGame.pointWonBy([3, 1])
+myGame.pointWonBy([3, 2])
 
 console.log(myGame.getCurrentRoundScore())
-console.log(myGame.getMatchs())
-// myGame.randomPoints()
+console.log(myGame.getMatchs()) */
+myGame.randomPoints()
