@@ -275,14 +275,10 @@ const game = () => {
     const otherPlayer = obj.players.find(player => player.id !== playerMoveId)
     const roundsPlayerMove = playerMove.round
     const roundsOtherPlayer = otherPlayer.round
-    const countDeucePlayerMove = playerMove.countDeuce.length
-    const countDeuceOtherPlayer = otherPlayer.countDeuce.length
     const juegosPlayerMove = playerMove.juegos
-    const juegosOtherPlayer = otherPlayer.juegos
 
     if (roundsPlayerMove >= 7 && jugadorConMayorJuegos === playerMoveId) {
       if (juegosPlayerMove === 2) {
-        // const findPlayer = obj.players.find(player => player.juegos === 2)
         const nameWinPlayer = playerMove.name
         obj.winner = nameWinPlayer
         result = 'champion'
@@ -306,7 +302,6 @@ const game = () => {
       if (compareRoundDeuce(roundsPlayerMove, roundsOtherPlayer) && jugadorConMayorScoreDeuce.id === playerMoveId) {
         // es juego -> juego +1
         if (juegosPlayerMove === 2) {
-          // const findPlayer = obj.players.find(player => player.juegos === 2)
           const nameWinPlayer = playerMove.name
           obj.winner = nameWinPlayer
           result = 'champion'
@@ -346,13 +341,13 @@ const game = () => {
   }
 
   // mover de sitio
-
+  /**
+   * Compare Rounds in Deuce State
+   * @param {number} playermove
+   * @param {number} otherplayer
+   * @returns {boolean}
+   */
   const compareRoundDeuce = (playermove, otherplayer) => {
-    /* let result = false
-    if (playermove >= 4 && playermove !== 7 && Math.abs(playermove - otherplayer) >= 2) {
-      result = true
-    }
-    return result */
     let result = false
     if (playermove < otherplayer) {
       result = false
@@ -361,7 +356,13 @@ const game = () => {
     }
     return result
   }
-  // Mirar
+
+  /**
+   * Compare Rounds in Round State
+   * @param {number} playermove
+   * @param {number} otherplayer
+   * @returns {boolean}
+   */
   const compareRound = (playermove, otherplayer) => {
     let result = false
     if (playermove < otherplayer) {
@@ -371,6 +372,7 @@ const game = () => {
     }
     return result
   }
+
   /**
    * Check if is Advance in deuce State
    * @param {array} players
@@ -390,6 +392,7 @@ const game = () => {
     }
     return result
   }
+
   /**
    * check if is equal in deuce state
    * @param {array} players
@@ -422,7 +425,6 @@ const game = () => {
     const roundsPlayerMove = playerMove.round
     const roundsOtherPlayer = otherPlayer.round
     const juegosPlayerMove = playerMove.juegos
-    const juegosOtherPlayer = otherPlayer.juegos
 
     if (roundsPlayerMove <= 3) {
       for (const match of matchs) {
@@ -504,31 +506,6 @@ const game = () => {
     }
 
     return maxJuegos
-  }
-
-  const checkWinMatchDeuce = (obj, player) => {
-    let result = false
-    const findPlayer = obj.players.find(player => player.juegos === 2)
-    if (findPlayer === undefined) {
-      result = false
-    } else if (findPlayer.id === player.id) {
-      result = true
-    }
-    return result
-  }
-
-  /**
-   * Check win Match (partido)
-   * @param {object} obj
-   * @returns {boolean}
-   */
-  const checkWinMatch = (obj) => {
-    const findPlayer = obj.players.find(player => player.juegos === 2)
-    let result = false
-    if (findPlayer) {
-      result = true
-    }
-    return result
   }
 
   /**
@@ -638,7 +615,6 @@ const game = () => {
       while (matchs[index].winner === null) {
         console.log(pointWonBy([matchs[index].matchId, Math.floor(Math.random() * 2) + 1]))
         console.log(getCurrentRoundScore())
-        console.log(getMatchs())
       }
     }
   }
@@ -648,123 +624,12 @@ const game = () => {
 }
 
 const myGame = game()
-console.log(myGame.getPlayers())
-
-console.log(myGame.createMatchs())
-/* const match = [
-{
-  "matchId": 1,
-  "players": [
-   {
-    "id": 1,
-    "name": "Edu Aguilar",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "Javier M",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": "Edu Aguilar"
- },
- {
-  "matchId": 2,
-  "players": [
-   {
-    "id": 1,
-    "name": "Alberto C",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "David J",
-    "score": [
-     0
-    ],
-    "isDeuce": false,
-    "countDeuce": [],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 1,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": "Alberto C"
- },
- {
-  "matchId": 3,
-  "players": [
-   {
-    "id": 1,
-    "name": "Edu Aguilar",
-    "score": [
-     0,
-     0,
-     0,
-     0
-    ],
-    "isDeuce": true,
-    "countDeuce": [
-     0,
-     0
-    ],
-    "isAdvance": false,
-    "round": 0,
-    "juegos": 2,
-    "scoreDeuce": []
-   },
-   {
-    "id": 2,
-    "name": "Alberto C",
-    "score": [
-     0,
-     0,
-     0,
-     0
-    ],
-    "isDeuce": true,
-    "countDeuce": [
-     0,
-     0,
-     0
-    ],
-    "isAdvance": true,
-    "round": 2,
-    "juegos": 2,
-    "scoreDeuce": []
-   }
-  ],
-  "winner": null
- }
-]
-myGame.setMatchs(match)
-myGame.pointWonBy([3, 2])
-
-console.log(myGame.getCurrentRoundScore())
-console.log(myGame.getMatchs()) */
+// console.log(myGame.getPlayers())
+myGame.createMatchs()
+// console.log(myGame.getMatchs())
 myGame.randomPoints()
+/*
+  Si da un error volver a ejecutar node. Pasa de forma aleatoria.
+  Se produce al crearse el partido de la final en función delos ganadores de los dos partidos anteriores
+  No he conseguido averiguar el motivo :(
+*/
